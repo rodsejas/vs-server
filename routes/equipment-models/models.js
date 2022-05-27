@@ -28,7 +28,7 @@ router.post("/models", async (req, res) => {
 router.get("/models/dropdown", async (req, res) => {
   let { data: models, error } = await supabase
     .from("models")
-    .select("id,model_name");
+    .select("id,model_name, lifespan_from_manufacture, inspection_frequency");
   res.status(200).json(models);
 });
 
