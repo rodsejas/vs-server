@@ -18,7 +18,7 @@ router.get("/equipment/:id", async (req, res) => {
   let { data: equipments, error } = await supabase
     .from("equipments")
     .select(
-      "*,workers!equipments_worker_id_fkey(first_name,last_name), models!equipments_model_id_fkey(model_name)"
+      "*,workers!equipments_worker_id_fkey(first_name,last_name), models!equipments_model_id_fkey(model_name, inspection_frequency)"
     )
     .eq("id", id);
   res.status(200).json(equipments);
@@ -86,6 +86,20 @@ router.get("/equipment/:id/edit", async (req, res) => {
     .select("*")
     .eq("id", id);
   res.status(200).json(equipments);
+});
+
+/**
+ * PATCH -> Edit equipment next inspection due date, based on inpsection_date
+ */
+
+router.patch("/equipment/:id/inspections", async (req, res) => {
+  const id = req.params.id;
+  const body = req.body;
+  const { data, error } = await supabase
+    .from("equipments")
+    .update(body)
+    .eq("id", id);
+  res.status(200).json(data);
 });
 
 /**
