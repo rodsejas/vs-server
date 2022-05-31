@@ -18,7 +18,7 @@ router.get("/equipment/:id", async (req, res) => {
   let { data: equipments, error } = await supabase
     .from("equipments")
     .select(
-      "*,workers!equipments_worker_id_fkey(first_name,last_name), models!equipments_model_id_fkey(model_name, inspection_frequency)"
+      "*,workers!equipments_worker_id_fkey(first_name,last_name), models!equipments_model_id_fkey(model_name, inspection_frequency, image, manufacturer, standards)"
     )
     .eq("id", id);
   res.status(200).json(equipments);
